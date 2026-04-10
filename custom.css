@@ -1,0 +1,57 @@
+/* ====================================
+   custom.css — Custom CSS for Bootstrap Pages
+   Alana Holdaway | Professional Site
+   ==================================== */
+
+/* CSS Variables */
+:root {
+  --gold: #FFC72C;
+  --navy: #1D428A;
+  --dark: #0d0d0d;
+  --light-gray: #f5f5f0;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navbar active indicator underline */
+.nav-link.active {
+  border-bottom: 2px solid var(--gold);
+}
+
+/* Gold highlight utility */
+.text-gold {
+  color: var(--gold) !important;
+}
+
+/* Section fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scratch page link banner */
+.scratch-banner {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+  padding: 0.65rem 1rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+}
+.scratch-banner a {
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+.scratch-banner a:hover {
+  text-decoration: underline;
+}

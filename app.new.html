@@ -1,0 +1,758 @@
+<!--Comments 
+Alana Holdaway 
+Section 1-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NBA GM Simulator | Alana Holdaway</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #FFC72C;
+      --navy: #1D428A;
+      --dark: #0d0d0d;
+      --dark-mid: #111827;
+      --panel: #1a2744;
+      --panel-light: #243057;
+      --white: #ffffff;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --muted: rgba(255,255,255,0.55);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark-mid);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: rgba(13,13,13,0.95);
+      border-bottom: 1px solid rgba(255,199,44,0.2);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .topbar-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+    .topbar-brand span { color: var(--white); }
+    .back-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    /* HERO STRIP */
+    .hero-strip {
+      background: linear-gradient(135deg, var(--navy), #0d1b4a);
+      padding: 3rem 2rem;
+      text-align: center;
+      border-bottom: 3px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-strip::before {
+      content: '🏀';
+      position: absolute;
+      font-size: 20rem;
+      opacity: 0.04;
+      top: -4rem;
+      right: -4rem;
+    }
+    .hero-strip h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+    .hero-strip h1 span { color: var(--gold); }
+    .hero-strip p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-top: 0.75rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* MAIN LAYOUT */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* TEAM SETUP */
+    .setup-panel {
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,199,44,0.15);
+    }
+    .setup-panel h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 600px) {
+      .setup-grid { grid-template-columns: 1fr; }
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      color: white;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.65rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+    select option { background: var(--panel); }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* SCENARIO BUTTONS */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .scenario-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,199,44,0.25);
+      border-radius: 6px;
+      color: white;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      line-height: 1.35;
+    }
+    .scenario-btn:hover, .scenario-btn.active {
+      background: rgba(255,199,44,0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .scenario-btn .emoji { font-size: 1.4rem; display: block; margin-bottom: 0.35rem; }
+
+    /* SUBMIT BUTTON */
+    .submit-btn {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      padding: 1rem 2.5rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover { background: #e6b000; transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* RESPONSE PANEL */
+    .response-panel {
+      background: var(--panel);
+      border-radius: 8px;
+      border: 1px solid rgba(255,199,44,0.2);
+      overflow: hidden;
+      display: none;
+    }
+    .response-panel.visible { display: block; }
+
+    .response-header {
+      background: var(--navy);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--gold);
+    }
+    .response-header .badge {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+    .response-header span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .response-body {
+      padding: 2rem 1.75rem;
+    }
+    .response-body p {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+    .response-body p:last-child { margin-bottom: 0; }
+
+    /* Loading dots */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--muted);
+    }
+    .loading.visible { display: block; }
+    .loading-dots {
+      display: inline-flex;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .loading-dots span {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* HISTORY */
+    .history-section {
+      margin-top: 2rem;
+    }
+    .history-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .history-item {
+      background: var(--panel-light);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      border-left: 3px solid var(--gold);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .history-item:hover { background: rgba(255,199,44,0.08); }
+    .history-item .hi-scenario {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .history-item .hi-team {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* VERDICT CHIP */
+    .verdict {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 3px;
+      margin-bottom: 1.25rem;
+    }
+    .verdict-good { background: rgba(34,197,94,0.2); color: var(--success); border: 1px solid rgba(34,197,94,0.4); }
+    .verdict-risky { background: rgba(255,199,44,0.15); color: var(--gold); border: 1px solid rgba(255,199,44,0.4); }
+    .verdict-bad { background: rgba(239,68,68,0.2); color: var(--danger); border: 1px solid rgba(239,68,68,0.4); }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 2rem 0;
+    }
+
+    /* Responsive nav */
+    @media (max-width: 500px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">🏀 <span>GM</span> SIMULATOR</div>
+  <div style="display:flex;gap:1.5rem;align-items:center;">
+    <a href="../index.html" class="back-link">← Home</a>
+    <a href="../html/resume.html" class="back-link">Résumé</a>
+    <a href="../webdev final/html/basketball.html" class="back-link">Basketball</a>
+  </div>
+</div>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+  <h1>NBA <span>GM</span><br/>SIMULATOR</h1>
+  <p>You're the General Manager. Make the call. Our AI analyst will break down your decision.</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SETUP PANEL -->
+  <div class="setup-panel">
+    <h2>⚙️ Your Team Setup</h2>
+    <div class="setup-grid">
+      <div>
+        <label>Your Team Name</label>
+        <input type="text" id="teamName" placeholder="e.g. Golden State Warriors" value="Golden State Warriors"/>
+      </div>
+      <div>
+        <label>Current Record</label>
+        <input type="text" id="teamRecord" placeholder="e.g. 34-18" value="34-18"/>
+      </div>
+      <div>
+        <label>Cap Space Remaining</label>
+        <input type="text" id="capSpace" placeholder="e.g. $12M under cap" value="$8M under the cap"/>
+      </div>
+      <div>
+        <label>Team Strength</label>
+        <select id="teamStrength">
+          <option value="contender">Championship Contender</option>
+          <option value="playoff">Solid Playoff Team</option>
+          <option value="bubble">Bubble Team</option>
+          <option value="rebuild">Rebuilding</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO SELECTOR -->
+  <div class="setup-panel">
+    <h2>🎯 Choose Your Crisis</h2>
+    <div class="scenario-grid" id="scenarioBtns">
+      <button class="scenario-btn active" data-scenario="trade">
+        <span class="emoji">🔀</span>Trade Deadline
+      </button>
+      <button class="scenario-btn" data-scenario="draft">
+        <span class="emoji">📋</span>Draft Night
+      </button>
+      <button class="scenario-btn" data-scenario="injury">
+        <span class="emoji">🏥</span>Star Injured
+      </button>
+      <button class="scenario-btn" data-scenario="contract">
+        <span class="emoji">💰</span>Max Contract
+      </button>
+      <button class="scenario-btn" data-scenario="coach">
+        <span class="emoji">🧠</span>Fire the Coach?
+      </button>
+    </div>
+
+    <!-- Custom scenario input -->
+    <div id="customInput" style="display:none; margin-bottom:1rem;">
+      <label>Describe Your Scenario</label>
+      <textarea id="customScenario" placeholder="e.g. Your starting center just demanded a trade, you have a first-round pick and $15M in expiring contracts. What do you do?"></textarea>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="runSimulation()">
+      🏆 GET GM ANALYSIS
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="loading-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <p>Your AI analyst is crunching the numbers...</p>
+  </div>
+
+  <!-- RESPONSE -->
+  <div class="response-panel" id="responsePanel">
+    <div class="response-header">
+      <span class="badge">AI Analysis</span>
+      <span id="responseScenarioLabel">Trade Deadline</span>
+    </div>
+    <div class="response-body" id="responseBody">
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="divider"></div>
+  <div class="history-section" id="historySection" style="display:none;">
+    <div class="history-title">📂 Previous Decisions</div>
+    <div id="historyList"></div>
+  </div>
+
+</div>
+
+<script>
+  let selectedScenario = 'trade';
+  let history = [];
+
+  const scenarioLabels = {
+    trade: 'Trade Deadline',
+    draft: 'Draft Night',
+    injury: 'Injury Crisis',
+    contract: 'Max Contract Decision',
+    coach: 'Coaching Change',
+    custom: 'Custom Scenario'
+  };
+
+  // Pre-written responses — each scenario has 3 variants that rotate
+  // Team name, record, and strength are injected dynamically
+  const responses = {
+    trade: [
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: BE AGGRESSIVE BUYERS',
+        lines: [
+          `At ${r}, the ${t} are in a strong position heading into the deadline, but strong positions don't last forever. The window is open right now, and the front office needs to treat it that way.`,
+          `The priority should be adding a reliable 3-and-D wing who can guard 1 through 3 and knock down catch-and-shoot threes at a 37%+ clip. ${p ? `With ${p} already on the roster, the spacing will be there` : 'The spacing already exists'} — you just need someone who won't lose the ball in rotation defense.`,
+          `Secondary target: a backup ball-handler who can create off the bounce in the fourth quarter when the defense tightens up. Even 15 quality minutes a game from a veteran guard changes the calculus in a seven-game series.`,
+          `Don't mortgage the future — a first-round pick plus a young player on a rookie deal should be the ceiling of what you give up. Championship windows close fast, but so do rebuild timelines. Make the move that improves you today without gutting tomorrow.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'risky',
+        label: 'VERDICT: STAND PAT — BUT STAY ALERT',
+        lines: [
+          `The ${t} at ${r} are in a tricky spot. Good enough to feel the urgency, but not quite dominant enough to justify overpaying at the deadline when sellers are gouging buyers.`,
+          `Here's the hard truth: the trade market in February is a seller's market. Every team with a useful piece knows you want it, and they'll price it accordingly. Giving up two first-round picks for a rental who may not re-sign is how franchises end up stuck in mediocrity for four years.`,
+          `${p ? `The core of ${p} is already good enough to compete` : 'The current core is already competitive'}. Focus instead on the buyout market — veterans released by rebuilding teams often bring real playoff value at zero asset cost.`,
+          `If a true difference-maker becomes available at a reasonable price, pull the trigger. But don't move for the sake of moving. The best deadline move is sometimes no move at all.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'bad',
+        label: 'VERDICT: CONSIDER SELLING OFF',
+        lines: [
+          `This is a difficult conversation, but the numbers at ${r} tell a story the ${t} front office needs to hear: this roster as currently constructed is not a championship-caliber team.`,
+          `The deadline presents a rare opportunity to reset. Expiring contracts and veterans on the back nine of their careers can return genuine value — young players, future picks, cap flexibility — if you're willing to have the honest conversation now rather than in three years.`,
+          `${p ? `Some of those players — ${p} — still have real trade value` : 'Key rotation players still have real trade value'}. That value depreciates every month. A smart GM captures it now.`,
+          `This isn't giving up. This is positioning. The teams that rebuild intelligently at the right moment — instead of stubbornly chasing a ceiling they can't reach — are the ones that end up cutting down nets two years later.`
+        ]
+      })
+    ],
+    draft: [
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: USE THE PICK — TARGET UPSIDE',
+        lines: [
+          `Draft night for the ${t} is about one thing: identifying the player who makes your current core better, not the safest pick on the board.`,
+          `At this stage of the draft, the safe pick and the bust are often the same player — a high-floor, low-ceiling prospect who fills a roster spot but never meaningfully impacts winning. Avoid that trap.`,
+          `${p ? `Given the current roster around ${p}` : 'Given the current roster makeup'}, the target profile is a switchable forward with shooting range — someone who can guard multiple positions and space the floor without needing the ball to be effective. Those players win playoff series.`,
+          `If another team calls wanting to package this pick into a larger deal, listen — but set a high price. A late first is worth more to a contender than people think, and you should be compensated accordingly. Don't just take the call; win the call.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'risky',
+        label: 'VERDICT: PACKAGE THE PICK IF POSSIBLE',
+        lines: [
+          `The ${t} are at an inflection point, and a single late first-round pick isn't going to change the trajectory on its own. The smarter play may be to use it as currency.`,
+          `Late first-round picks hit at a lower rate than fans expect — historically, picks 20-30 develop into meaningful rotation players only about 40% of the time. A pick packaged with an expiring contract, however, can bring back a proven contributor.`,
+          `${p ? `The core of ${p} is ready to compete now` : 'The current core is ready to compete now'}. Adding a raw prospect who needs two years of development doesn't help that timeline. Adding a veteran who can contribute immediately does.`,
+          `If no good trade presents itself by draft night, take the best available player at your position of need and don't overthink it. But exhaust the trade market first — deals that seem impossible in October become very possible on draft night when GMs are anxious.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: DRAFT AND DEVELOP',
+        lines: [
+          `For the ${t}, this draft pick represents something more valuable than a single player: it represents optionality. And right now, optionality is exactly what this roster needs.`,
+          `The best teams in the league consistently hit on late first-round picks because they draft for specific needs rather than best available. Define your need before the board comes to you, not after.`,
+          `${p ? `Around a core of ${p}` : 'Around the current core'}, the biggest gap is switchable depth — players who can guard multiple positions without getting exploited in a playoff series. Prioritize that profile above all else.`,
+          `Draft him, develop him over a full season, and evaluate honestly at the trade deadline next year. If he's ahead of schedule, you've got a gem. If a contender comes calling with a real offer, you have real leverage. Either way, you win.`
+        ]
+      })
+    ],
+    injury: [
+      (t, r, s, p) => ({
+        verdict: 'risky',
+        label: 'VERDICT: STAY THE COURSE — DON\'T PANIC',
+        lines: [
+          `The instinct when a star goes down is to act immediately — make a call, make a trade, do something. Resist that instinct. The ${t} at ${r} have more runway than the panic suggests.`,
+          `Six weeks is not a death sentence. Teams have survived and even thrived through short-term absences when the coaching staff adjusts rotations intelligently and role players accept expanded responsibilities.`,
+          `${p ? `The remaining players — ${p} — need to collectively absorb the minutes` : 'The remaining rotation needs to collectively absorb the minutes'}. That means more ball movement, not more isolation. More defensive switching, not more gambling for steals. Disciplined, system basketball wins in the short run.`,
+          `Check the buyout market for a veteran who can provide steady minutes without disrupting chemistry. But do not trade valuable assets for a short-term patch. The star comes back in six weeks, you'd be giving up future pieces for a bridge you don't need.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: MAKE A MOVE — THE WINDOW IS NOW',
+        lines: [
+          `For the ${t}, this injury is painful — but it may also be clarifying. The roster as currently constructed was already one piece away. The absence of a star accelerates a decision that needed to happen anyway.`,
+          `The trade market is going to undervalue the ${t} right now because of the injury. Use that to your advantage. Sellers assume you're desperate; prove them wrong by being selective and patient.`,
+          `${p ? `Target a player who complements ${p}` : 'Target a player who complements the existing core'} — someone who can create their own shot off the bounce, run pick-and-roll, and defend without needing a detailed scheme around them. That player exists, and their team knows it.`,
+          `Make the call. Offer the second-round picks and the expiring salary. Get the deal done before the star returns, so that when he walks back into the locker room, he walks into a better team than the one he left.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'bad',
+        label: 'VERDICT: ACCEPT THE LOSSES — PROTECT THE FUTURE',
+        lines: [
+          `Here's the cold analysis: the ${t} at ${r} with a key player down for six weeks are unlikely to dramatically change their playoff seeding either way. The math just doesn't support burning assets over it.`,
+          `Every team in the league knows you're vulnerable. That means every asking price just went up 20%. Assets that would have gotten you a solid wing last week now get you a mediocre one. The market has already priced in your desperation.`,
+          `The right move is to protect the roster, protect the chemistry, and protect the future picks. ${p ? `Let ${p} absorb the load` : 'Let the remaining rotation absorb the load'} and use this stretch to identify which role players you can trust when things get hard — that information is genuinely valuable heading into the playoffs.`,
+          `The star comes back in six weeks. If the team is two games back of its seed, that's recoverable. If the team traded two first-round picks and it still didn't work, that's a franchise-altering mistake. Protect the future.`
+        ]
+      })
+    ],
+    contract: [
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: SIGN THEM',
+        lines: [
+          `The ${t} should sign the extension. Full stop. The market for star players has never been more expensive, and the cost of finding a replacement — in time, in assets, in losing seasons — almost always exceeds the cost of the max contract you're debating right now.`,
+          `Look at the franchises that let stars walk and ask yourself: how many of them are better off five years later? The answer is almost none. The ones who retained their core — even at uncomfortable prices — are the ones competing for titles.`,
+          `${p ? `A core built around ${p}` : 'A core built around this player'} has real championship equity. That equity evaporates the moment word leaks that the front office wasn't willing to commit. Losing a star to free agency doesn't just hurt on the court — it hurts recruiting, it hurts culture, and it hurts the next ten years of roster construction.`,
+          `Pay the man. Lock in the commitment. Then spend the next year building the right pieces around him at prices that actually fit the cap. That's how you build a dynasty.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'risky',
+        label: 'VERDICT: NEGOTIATE DOWN',
+        lines: [
+          `The ${t} want to keep their star — that's not in question. The question is whether the max contract is the right structure, or whether there's a middle ground that works for both sides.`,
+          `Max contracts are built on projections of peak performance sustained over four or five years. That's a long time in a sport where bodies break down and roles evolve. A slightly shorter deal, or a slight reduction in annual value, gives the front office flexibility without signaling a lack of commitment.`,
+          `${p ? `The rest of the roster around ${p}` : 'The rest of the roster'} needs investment too. A max contract that consumes 35% of the cap doesn't leave room for the supporting cast that actually wins championships. Rings are built in the margins.`,
+          `Have the honest conversation. Most players understand the cap math better than they let on. A four-year deal at slightly below max, with a player option, often works for everyone. Push for that structure before you sign the full max.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'bad',
+        label: 'VERDICT: LET THEM WALK',
+        lines: [
+          `This is the hardest call in basketball — and sometimes it's the right one. The ${t} need to seriously consider whether the max contract fits within a plan that can actually win a championship, or whether it locks the franchise into comfortable mediocrity for four years.`,
+          `The salary cap is a zero-sum game. Every dollar committed to one player is a dollar unavailable for the rest of the roster. If the player in question is the fourth or fifth piece of a would-be contender, paying max money for a complementary player is a structural mistake.`,
+          `${p ? `If the vision is building around ${p} long-term` : 'If the vision is a genuine rebuild'}, the cap space created by letting this contract walk could be transformative — a max free agent signing, multiple role players, or the trade capital to move up in the draft.`,
+          `Let them walk, thank them genuinely for what they built together, and use the freedom wisely. This only works if the front office has a real plan for what comes next. If they do — make the hard call.`
+        ]
+      })
+    ],
+    coach: [
+      (t, r, s, p) => ({
+        verdict: 'risky',
+        label: 'VERDICT: GIVE MORE TIME',
+        lines: [
+          `The data on mid-season coaching changes is not encouraging. Across the last 20 years of NBA history, teams that fired their coach mid-season improved meaningfully in fewer than 30% of cases. The short-term bump from a new voice rarely survives contact with a playoff series.`,
+          `The ${t} at ${r} have real problems, but are those problems coaching problems, or roster problems? That distinction matters enormously before making a move that disrupts an entire organization.`,
+          `${p ? `The players — ${p} — need stability right now` : 'The players need stability right now'}, not uncertainty. A coaching change mid-season forces everyone to learn a new system, new terminology, new rotations — exactly when the team should be sharpening what it already knows.`,
+          `Set clear, measurable benchmarks for the next 15 games. If the team trends in the right direction, stay the course. If it doesn't, then the conversation changes. But make the decision with data, not frustration.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'bad',
+        label: 'VERDICT: FIRE AT SEASON\'S END',
+        lines: [
+          `The ${t} coaching situation has reached the point where change is necessary — but timing matters. Firing mid-season is a desperate move, and desperation rarely produces good outcomes.`,
+          `An end-of-season dismissal sends the right message without creating the chaos of a mid-year transition. It gives the front office time to conduct a real search rather than a panicked one, and it gives players the chance to finish the season with dignity and clarity.`,
+          `${p ? `Players like ${p} deserve to know what's coming` : 'The players deserve clarity'} — not to be surprised by a locker room announcement in February. Honoring the full season also honors the investment those players have made in the system.`,
+          `Begin the coaching search now, quietly. Build a target list. Know exactly what profile — defensive-minded, player development-focused, system-oriented — the next hire needs to fit. Then make the announcement after the season and execute the plan with conviction.`
+        ]
+      }),
+      (t, r, s, p) => ({
+        verdict: 'good',
+        label: 'VERDICT: FIRE NOW',
+        lines: [
+          `Sometimes the relationship between a coach and a locker room is simply broken, and no amount of patience repairs it. The ${t} appear to be at that point, and the front office needs to act.`,
+          `The warning signs are always the same: players tuning out, effort levels inconsistent, defensive breakdowns that aren't corrected week over week. When players stop competing for a coach, the coach has already lost, you're just waiting to make it official.`,
+          `${p ? `The talent is there — ${p} is a real core` : 'The talent on the roster is real'}. Bad coaching is actively squandering it. Every additional week under the current staff is a week of development, film study, and competitive habits lost. That's a real cost.`,
+          `Make the move. Elevate an assistant who already has the players' trust as interim. Use the remaining games to evaluate what you actually have before making the permanent hire in the offseason. Decisive action now protects the asset that matters most: your players' confidence.`
+        ]
+      })
+    ],
+    custom: [
+      (t, r, s, p, custom) => ({
+        verdict: 'risky',
+        label: 'VERDICT: PROCEED — BUT WITH CONDITIONS',
+        lines: [
+          `The situation facing the ${t} at ${r} is genuinely complex, and the right answer depends heavily on execution. Here's how to think through it.`,
+          `First, identify what success actually looks like here. Not the optimistic version — the realistic one. If everything goes right, what does this move get you? If it goes wrong, what's the cost? That asymmetry should drive the decision.`,
+          `${p ? `Given the roster construction around ${p}` : 'Given the current roster construction'}, the margin for error is tighter than it looks. Moves that seem low-risk in isolation often create second-order effects — cap complications, chemistry shifts, role disruptions — that show up three months later.`,
+          `Proceed if the upside is meaningful and the downside is survivable. Set a clear decision point — a date, a record threshold, a milestone — at which you re-evaluate honestly. And make sure everyone in the organization is aligned before you pull the trigger.`
+        ]
+      }),
+      (t, r, s, p, custom) => ({
+        verdict: 'good',
+        label: 'VERDICT: THIS IS THE RIGHT MOVE',
+        lines: [
+          `After analyzing the situation for the ${t}, the conclusion is clear: this is the right move, and the front office should execute it with confidence.`,
+          `The best organizations in the league share one trait: they identify the right path and commit to it fully, rather than half-measures that please everyone and accomplish nothing. This decision has a clear logic, and that logic holds up under pressure.`,
+          `${p ? `The core of ${p} is ready for this moment` : 'The current core is ready for this moment'}. The question was never whether the players could handle it — it was whether the front office had the conviction to pull the trigger. They do.`,
+          `Execute cleanly. Communicate clearly with the locker room so there are no surprises. And then let the results speak. Good process produces good outcomes — not every time, but most of the time. Trust the process.`
+        ]
+      }),
+      (t, r, s, p, custom) => ({
+        verdict: 'bad',
+        label: 'VERDICT: PUMP THE BRAKES',
+        lines: [
+          `The ${t} front office is feeling pressure to act, and that pressure is exactly why this decision deserves more scrutiny before it's made.`,
+          `Urgency is the enemy of good decision-making in roster construction. The moves that haunt franchises for years are almost always the ones made quickly, under pressure, without fully gaming out the consequences. Slow down.`,
+          `${p ? `Before any move involving ${p}` : 'Before any significant move'}, answer three questions: Does this make the team meaningfully better this season? Does it compromise flexibility in the next two years? And is there a version of this deal that's better for both sides? If the answers are no, yes, and yes — it's not the right deal yet.`,
+          `Come back to the table with a clearer sense of the ask and a harder ceiling on what you're willing to give. The right deal will still be there in two weeks. The wrong deal will cost you two years.`
+        ]
+      })
+    ]
+  };
+
+  // Scenario button handlers
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedScenario = btn.dataset.scenario;
+      document.getElementById('customInput').style.display =
+        selectedScenario === 'custom' ? 'block' : 'none';
+    });
+  });
+
+  // Track how many times each scenario has been used so variants rotate
+  const scenarioCount = { trade: 0, draft: 0, injury: 0, contract: 0, coach: 0, custom: 0 };
+
+  function buildResponseHTML(verdict, label, lines) {
+    const verdictClass = verdict === 'good' ? 'verdict-good' : verdict === 'bad' ? 'verdict-bad' : 'verdict-risky';
+    const verdictEmoji = verdict === 'good' ? '✅' : verdict === 'bad' ? '🔴' : '⚠️';
+    let html = `<div class="verdict ${verdictClass}">${verdictEmoji} ${label}</div>`;
+    lines.forEach(line => { html += `<p>${line}</p>`; });
+    return html;
+  }
+
+  function runSimulation() {
+    const team = document.getElementById('teamName').value.trim() || 'Your Team';
+    const record = document.getElementById('teamRecord').value.trim() || 'unknown record';
+    const cap = document.getElementById('capSpace').value.trim() || 'unknown cap space';
+    const strength = document.getElementById('teamStrength').value;
+    const players = '';
+    const custom = document.getElementById('customScenario').value.trim();
+
+    if (selectedScenario === 'custom' && !custom) {
+      alert('Please describe your custom scenario!');
+      return;
+    }
+
+    // Show loading
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('loading').classList.add('visible');
+    document.getElementById('responsePanel').classList.remove('visible');
+
+    // Simulate a short thinking delay for realism
+    setTimeout(() => {
+      const variantIndex = scenarioCount[selectedScenario] % 3;
+      scenarioCount[selectedScenario]++;
+
+      const responseFn = responses[selectedScenario][variantIndex];
+      const { verdict, label, lines } = responseFn(team, record, strength, players, custom);
+      const html = buildResponseHTML(verdict, label, lines);
+
+      document.getElementById('responseScenarioLabel').textContent = scenarioLabels[selectedScenario];
+      document.getElementById('responseBody').innerHTML = html;
+      document.getElementById('loading').classList.remove('visible');
+      document.getElementById('responsePanel').classList.add('visible');
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('responsePanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Save to history
+      history.unshift({ scenario: selectedScenario, team, record, html });
+      renderHistory();
+    }, 1800);
+  }
+
+  function renderHistory() {
+    if (history.length === 0) return;
+    document.getElementById('historySection').style.display = 'block';
+    const list = document.getElementById('historyList');
+    list.innerHTML = history.slice(0, 5).map((h, i) => `
+      <div class="history-item" onclick="showHistory(${i})">
+        <div class="hi-scenario">${scenarioLabels[h.scenario]}</div>
+        <div class="hi-team">${h.team} — ${h.record}</div>
+      </div>
+    `).join('');
+  }
+
+  function showHistory(i) {
+    const h = history[i];
+    document.getElementById('responseScenarioLabel').textContent = `[Previous] ${scenarioLabels[h.scenario]}`;
+    document.getElementById('responseBody').innerHTML = h.html;
+    document.getElementById('responsePanel').classList.add('visible');
+    document.getElementById('responsePanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>

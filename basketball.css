@@ -1,0 +1,432 @@
+/* ====================================
+   basketball.css — From Scratch Stylesheet
+   Alana Holdaway | Warriors Fan Page
+   ==================================== */
+
+/* === CSS VARIABLES === */
+:root {
+  --gold: #FFC72C;
+  --navy: #1D428A;
+  --dark: #0d0d0d;
+  --dark-mid: #1a1a2e;
+  --white: #ffffff;
+  --off-white: #f8f7f2;
+  --text-muted: #888;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-condensed: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+}
+
+/* === RESET === */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* === BASE === */
+/* Style 1: body — sets font family and background color */
+body {
+  font-family: var(--font-body);
+  background-color: var(--off-white);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Style 2: Global link styling with font color */
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #e6b000;
+}
+
+/* === TOPNAV === */
+/* Div 1: Navigation bar */
+.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(13, 13, 13, 0.92);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2.5rem;
+  border-bottom: 1px solid rgba(255,199,44,0.2);
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Style 3: Nav link font styling */
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  transition: color 0.2s;
+}
+.nav-links a:hover {
+  color: var(--gold);
+}
+
+/* === HERO === */
+/* Div 2: Hero section with background color/image */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: var(--navy);
+  background-image:
+    radial-gradient(ellipse at 70% 50%, rgba(255,199,44,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(29,66,138,0.8) 0%, transparent 50%);
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13,13,13,0.7) 0%, rgba(29,66,138,0.4) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 6vw;
+  max-width: 800px;
+}
+
+/* Style 4: Hero eyebrow — font family + color specification */
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 14vw, 11rem);
+  line-height: 0.9;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.hero-title span {
+  color: var(--gold);
+  -webkit-text-stroke: 2px var(--gold);
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.7);
+  max-width: 440px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--font-condensed);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+}
+.cta-btn:hover {
+  background: #e6b000;
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* Decorative balls background */
+.hero-balls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,199,44,0.25), transparent 70%);
+}
+.b1 { width: 500px; height: 500px; right: -100px; top: -100px; }
+.b2 { width: 300px; height: 300px; right: 200px; bottom: -50px; opacity: 0.5; }
+.b3 { width: 200px; height: 200px; right: 80px; top: 200px; opacity: 0.3; }
+
+/* === SECTIONS === */
+/* Style 5: General section spacing */
+.section {
+  padding: 90px 0;
+}
+
+.dark-section {
+  background-color: var(--dark-mid);
+  color: var(--white);
+}
+
+.cta-section {
+  background-color: var(--navy);
+  color: var(--white);
+}
+
+/* Div 3: Container for content centering */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.text-center-custom {
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--navy);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.gold { color: var(--gold) !important; }
+
+/* Style 6: Section title — display font family */
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+  color: var(--dark);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.section-title.light {
+  color: var(--white);
+}
+.section-title span {
+  color: var(--navy);
+}
+
+.section-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+  max-width: 560px;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+}
+
+/* === TWO-COLUMN LAYOUT === */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .two-col {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.col-text p {
+  color: #444;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.about-img {
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  display: block;
+}
+.img-caption {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* === ORDERED + UNORDERED LISTS === */
+.list-container {
+  max-width: 780px;
+}
+
+/* Style 7: Ordered list font styling */
+.main-list {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  counter-reset: item;
+}
+
+.main-list > li {
+  font-family: var(--font-condensed);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+.main-list > li strong {
+  color: var(--white);
+}
+
+/* Style 8: Unordered sub-list — font color + family */
+.sub-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.6rem;
+}
+
+.sub-list li {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0;
+  margin-bottom: 0.3rem;
+}
+
+/* === GALLERY === */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 4px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gallery-grid img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+
+/* === TABLEAU === */
+.tableau-wrap {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  background: white;
+}
+.tableau-note {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 1rem;
+  font-style: italic;
+}
+.gold-link {
+  color: var(--gold);
+}
+
+/* === VIDEO === */
+.video-wrap {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 50px rgba(0,0,0,0.15);
+  background: #000;
+}
+
+/* === FACTS GRID === */
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+@media (max-width: 700px) {
+  .facts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.fact-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,199,44,0.2);
+  border-radius: 4px;
+  padding: 2rem 1rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+.fact-card:hover {
+  background: rgba(255,199,44,0.08);
+}
+
+/* Style 9: Fact numbers — large display font */
+.fact-num {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.fact-label {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* === CTA BUTTON LARGE === */
+.cta-btn-large {
+  font-size: 1.1rem;
+  padding: 1.2rem 3rem;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+/* === FOOTER === */
+.page-footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 2.5rem 2rem;
+  font-size: 0.85rem;
+}
+.page-footer a {
+  color: var(--gold);
+}

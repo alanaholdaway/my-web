@@ -1,0 +1,345 @@
+<!--Comments 
+Alana Holdaway 
+Section 1-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alana Holdaway | Sports & Business</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../webdev final/css/custom.css"/>
+  <style>
+    :root {
+      --gold: #FFC72C;
+      --navy: #1D428A;
+      --dark: #0d0d0d;
+      --light-gray: #f5f5f0;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--light-gray); color: var(--dark); }
+    h1, h2, h3, .display-font { font-family: 'Playfair Display', serif; }
+
+    /* NAVBAR */
+    .navbar { background: var(--navy) !important; }
+    .navbar-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold) !important; letter-spacing: 0.02em; }
+    .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.8rem; }
+    .nav-link:hover { color: var(--gold) !important; }
+    .nav-link.active { color: var(--gold) !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 60%, #162d6a 100%);
+      color: white;
+      padding: 110px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 420px; height: 420px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.07;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -60px;
+      width: 300px; height: 300px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.05;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; margin-bottom: 1.5rem; }
+    .hero h1 span { color: var(--gold); }
+    .hero-sub { font-size: 1.15rem; color: rgba(255,255,255,0.75); max-width: 480px; line-height: 1.7; }
+    .hero-avatar {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 5px solid var(--gold);
+      object-fit: cover;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .hero-avatar-placeholder {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 5px solid var(--gold);
+      background: linear-gradient(135deg, #2a4a9e, #1D428A);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem; color: var(--gold);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .btn-gold { background: var(--gold); color: var(--navy); font-weight: 700; border: none; padding: 0.75rem 2rem; border-radius: 2px; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.85rem; }
+    .btn-gold:hover { background: #e6b000; color: var(--navy); }
+    .btn-outline-light-custom { border: 2px solid rgba(255,255,255,0.4); color: white; padding: 0.75rem 2rem; border-radius: 2px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.85rem; }
+    .btn-outline-light-custom:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* STATS STRIP */
+    .stats-strip { background: var(--gold); padding: 2rem 0; }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .stat-label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); font-weight: 500; margin-top: 0.25rem; opacity: 0.8; }
+
+    /* ABOUT */
+    .section-eyebrow { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); font-weight: 600; }
+    .section-title { font-size: clamp(2rem, 4vw, 2.8rem); color: var(--dark); }
+    .section-title span { color: var(--navy); }
+    .about-section { padding: 100px 0; }
+    .about-card {
+      background: white;
+      border-radius: 4px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      border-left: 4px solid var(--gold);
+      height: 100%;
+    }
+    .about-card i { font-size: 2rem; color: var(--navy); margin-bottom: 1rem; }
+    .about-card h5 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.75rem; }
+    .about-card p { color: #555; line-height: 1.75; font-size: 0.95rem; }
+
+    /* SKILLS */
+    .skills-section { background: var(--navy); padding: 80px 0; color: white; }
+    .skills-section .section-eyebrow { color: var(--gold); }
+    .skills-section .section-title { color: white; }
+    .skill-bar-wrap { margin-bottom: 1.25rem; }
+    .skill-bar-label { display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .skill-bar-label span:first-child { font-weight: 500; }
+    .skill-bar-label span:last-child { color: var(--gold); font-weight: 600; }
+    .skill-bar { height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; }
+    .skill-tag { display: inline-block; background: rgba(255,199,44,0.15); border: 1px solid rgba(255,199,44,0.4); color: var(--gold); padding: 0.35rem 0.9rem; border-radius: 2px; font-size: 0.8rem; margin: 0.25rem; font-weight: 500; letter-spacing: 0.04em; }
+
+    /* INTERESTS */
+    .interests-section { padding: 100px 0; }
+    .interest-card {
+      background: white;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .interest-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .interest-card-header { background: var(--navy); padding: 2rem; text-align: center; }
+    .interest-card-header i { font-size: 2.5rem; color: var(--gold); }
+    .interest-card-body { padding: 1.5rem; }
+    .interest-card-body h5 { font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; }
+    .interest-card-body p { font-size: 0.9rem; color: #666; line-height: 1.7; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 3rem 0; text-align: center; }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer .social-links a { display: inline-block; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; line-height: 40px; text-align: center; margin: 0 0.3rem; color: rgba(255,255,255,0.6); font-size: 1rem; transition: all 0.2s; }
+    footer .social-links a:hover { border-color: var(--gold); color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="../webdev final/index.html">Alana Holdaway</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-2">
+        <li class="nav-item"><a class="nav-link active" href="../webdev final/index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="../webdev final/html/resume.html">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="../webdev final/html/basketball.html">🏀 Basketball</a></li>
+        <li class="nav-item"><a class="nav-link" href="../webdev final/html/app.new.html">GM Simulator</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- SCRATCH PAGE BANNER -->
+<div class="scratch-banner">
+  Want to see my from-scratch page?
+  <a href="../webdev final/html/basketball.html">Visit the Warriors Basketball Page →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <p class="hero-eyebrow">Sports · Business · Analytics</p>
+        <h1>Hi, I'm <span>Alana</span><br/>Holdaway.</h1>
+        <p class="hero-sub mb-4">A business student with a passion for sports analytics, team strategy, and turning game-day data into winning decisions.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="../webdev final/html/basketball.html" class="btn btn-outline-light-custom">My Basketball Page</a>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center">
+        <div class="hero-avatar-placeholder mx-auto">AH</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="stats-strip">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-num">3.7</div>
+        <div class="stat-label">GPA</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Internships</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Leadership Roles</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years Fan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6">
+        <p class="section-eyebrow mb-2">About Me</p>
+        <h2 class="section-title">Where <span>Sports</span> Meets Business</h2>
+      </div>
+      <div class="col-lg-6 d-flex align-items-end">
+        <p class="text-muted" style="font-size:1rem;line-height:1.8;">I'm a business student who believes the best insights live at the intersection of data, storytelling, and competition. Whether I'm analyzing playoff rotations or building financial models, I bring the same intensity to everything I do.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-graph-up-arrow"></i>
+          <h5>Analytics Mindset</h5>
+          <p>Numbers tell stories, and I'm here to translate them.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-people-fill"></i>
+          <h5>Team Leadership</h5>
+          <p>I've always been drawn to building teams that trust each other and execute under pressure.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-trophy-fill"></i>
+          <h5>Competitive Drive</h5>
+          <p>Growing up watching the Warriors taught me that sustained excellence is a system, not luck. I bring that philosophy to my academic and professional work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills-section">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6">
+        <p class="section-eyebrow mb-2">Core Competencies</p>
+        <h2 class="section-title mb-4">What I <span style="color:var(--gold)">Bring</span></h2>
+        <div>
+          <span class="skill-tag">Statistical Analysis</span>
+          <span class="skill-tag">Data Visualization</span>
+          <span class="skill-tag">Email Analytics</span>
+          <span class="skill-tag">Curriculum Development</span>
+          <span class="skill-tag">Project Management</span>
+          <span class="skill-tag">Cross-cultural Communication</span>
+          <span class="skill-tag">Teaching & Training</span>
+          <span class="skill-tag">Legislative Research</span>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <p class="section-eyebrow mb-2">Tools & Technologies</p>
+        <h2 class="section-title mb-4">My <span style="color:var(--gold)">Toolkit</span></h2>
+        <div>
+          <span class="skill-tag">Excel / Google Sheets</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">PowerPoint</span>
+          <span class="skill-tag">R Studio</span>
+          <span class="skill-tag">Canva</span>
+          <span class="skill-tag">HTML & CSS</span>
+          <span class="skill-tag">QuickBooks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section class="interests-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow mb-2">Beyond the Classroom</p>
+      <h2 class="section-title">What <span>Drives</span> Me</h2>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4 col-sm-6">
+        <div class="interest-card">
+          <div class="interest-card-header"><i class="bi bi-dribbble"></i></div>
+          <div class="interest-card-body">
+            <h5>Basketball</h5>
+            <p>Lifelong Warriors fan. I've watched every playoff run since 2015 and love breaking down tape.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="interest-card">
+          <div class="interest-card-header"><i class="bi bi-bar-chart-fill"></i></div>
+          <div class="interest-card-body">
+            <h5>Sports Analytics</h5>
+            <p>I love how advanced metrics are reshaping how we evaluate talent.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6">
+        <div class="interest-card">
+          <div class="interest-card-header"><i class="bi bi-book-fill"></i></div>
+          <div class="interest-card-body">
+            <h5>Business Strategy</h5>
+            <p>I'm fascinated by how sports franchises operate as businesses, especially the cap math and brand plays.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="social-links mb-3">
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="https://twitter.com" target="_blank" title="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+      <a href="https://github.com" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+      <a href="/cdn-cgi/l/email-protection#72131e131c1332170a131f021e175c111d1f" title="Email"><i class="bi bi-envelope-fill"></i></a>
+    </div>
+    <p class="mb-1" style="font-size:0.85rem;">&copy; 2026 Alana Holdaway. All rights reserved.</p>
+    <p style="font-size:0.8rem;"><a href="../webdev final/html/basketball.html">Basketball Page</a> &nbsp;|&nbsp; <a href="../webdev final/html/app.new.html">GM Simulator App</a></p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static
